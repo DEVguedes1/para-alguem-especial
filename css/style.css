@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,900&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.greetings {
+    font-size: 4rem;
+    font-weight: 900;
+    text-align: center;
+    color: azure;
+}
+
+.greetings > span {
+    animation: glow 2.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        color: #fff;
+        text-shadow: 0 0 12px #39c6d6, 0 0 50px #39c6d6, 0 0 100px #39c6d6;
+    }
+    10%, 90% {
+        color: #111;
+        text-shadow: none;
+    }
+}
