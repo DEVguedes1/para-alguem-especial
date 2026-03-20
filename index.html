@@ -12,95 +12,165 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #fff0f3;
+            background-color: #fff0f3; /* Rosa bem claro */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+            overflow: hidden; /* Impede barras de rolagem */
+            cursor: pointer; /* Indica que a tela é clicável */
         }
 
+        /* Área onde o buquê será formado */
+        #bouquet-area {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+        }
+
+        /* O texto central que começa escondido */
         .container {
             text-align: center;
-            background: white;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.9); /* Branco semi-transparente */
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.4);
             z-index: 10;
-            max-width: 400px;
+            max-width: 350px;
+            opacity: 0; /* Começa invisível */
+            transform: scale(0.8);
+            transition: all 1s ease-out; /* Animação de aparecimento */
+            pointer-events: none; /* Não atrapalha os cliques nas flores */
         }
 
-        .bouquet {
-            font-size: 80px;
-            margin-bottom: 20px;
-            display: inline-block;
-            animation: sway 3s ease-in-out infinite;
-        }
-
-        @keyframes sway {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
+        /* Quando o buquê estiver "pronto", o texto aparece */
+        .container.show {
+            opacity: 1;
+            transform: scale(1);
         }
 
         h1 {
-            color: #ff4d6d;
-            font-size: 24px;
+            color: #ff4d6d; /* Rosa escuro/vermelho */
+            font-size: 22px;
             margin-bottom: 15px;
         }
 
         p {
-            color: #590d22;
-            font-size: 18px;
-            line-height: 1.6;
+            color: #590d22; /* Vinho */
+            font-size: 17px;
+            line-height: 1.5;
             font-style: italic;
+            margin: 0;
         }
 
-        .heart {
-            color: #ff4d6d;
-            font-size: 20px;
-        }
-
-        /* Animação de pétalas caindo */
-        .petal {
+        /* Estilo das Flores Animadas */
+        .flower {
             position: absolute;
-            background-color: #ffb3c1;
-            border-radius: 150% 0 150% 0;
-            opacity: 0.7;
-            pointer-events: none;
-            animation: fall linear infinite;
+            font-size: 40px;
+            opacity: 0;
+            transform: scale(0) rotate(0deg);
+            animation: flowerAppear 0.8s ease-out forwards;
+            pointer-events: none; /* Garante que os cliques passem para o body */
         }
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
+        @keyframes flowerAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.2) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
             }
         }
+
+        /* Instrução inicial */
+        #instruction {
+            position: absolute;
+            top: 20px;
+            color: #ff4d6d;
+            font-weight: bold;
+            font-size: 18px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.2; }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="bouquet">💐</div>
-        <h1>Para alguém especial...</h1>
-        <p>"Flores são bonitas, mas nenhuma delas consegue ter o brilho que vejo no seu sorriso. Você é, de longe, a pessoa mais incrível que eu já conheci."</p>
-        <div class="heart">❤❤❤</div>
-    </div>
+    <div id="instruction">Toque na tela para cultivar algo...</div>
+
+    <div id="bouquet-area">
+        <div class="container" id="text-container">
+            <h1>Para alguém especial...</h1>
+            <p>"Flores são bonitas, mas nenhuma delas consegue ter o brilho que vejo no seu sorriso. Você é, de longe, a pessoa mais incrível que eu já conheci."</p>
+        </div>
+        </div>
 
     <script>
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.classList.add('petal');
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.width = Math.random() * 15 + 10 + 'px';
-            petal.style.height = petal.style.width;
-            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
-            petal.style.opacity = Math.random();
-            
-            document.body.appendChild(petal);
+        const bouquetArea = document.getElementById('bouquet-area');
+        const textContainer = document.getElementById('text-container');
+        const instruction = document.getElementById('instruction');
+        
+        // Lista de emojis de flores para variar
+        const flowerEmojis = ['🌹', '🌸', '💐', '🌺', '🌷', '🌻', '🪷'];
+        
+        let flowerCount = 0;
+        const totalFlowersNeeded = 12; // Número de cliques para completar o buquê
 
-            setTimeout(() => {
-                petal.remove();
-            }, 5000);
+        // Função para criar uma flor na posição do clique
+        function addFlower(e) {
+            if (flowerCount >= totalFlowersNeeded) return; // Para de adicionar se já estiver cheio
+
+            flowerCount++;
+
+            // Se for o primeiro clique, esconde a instrução
+            if (flowerCount === 1) {
+                instruction.style.display = 'none';
+            }
+
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            flower.innerText = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+
+            // Define a posição da flor relativa à área do buquê
+            // Usamos coordenadas centradas para formar o buquê
+            const angle = Math.random() * Math.PI * 2; // Ângulo aleatório
+            const radius = Math.random() * 120 + 30; // Raio aleatório para dispersão
+
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+
+            flower.style.left = `calc(50% + ${x}px - 20px)`; // Ajuste de 20px para centralizar o emoji
+            flower.style.top = `calc(50% + ${y}px - 20px)`;
+
+            // Adiciona uma leve rotação aleatória final
+            flower.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+
+            bouquetArea.appendChild(flower);
+
+            // Se atingir o número necessário, mostra o texto
+            if (flowerCount === totalFlowersNeeded) {
+                setTimeout(() => {
+                    textContainer.classList.add('show');
+                }, 500); // Pequeno delay após a última flor
+            }
         }
 
-        setInterval(createPetal, 300);
+        // Adiciona o evento de clique/toque no corpo inteiro da página
+        document.body.addEventListener('click', addFlower);
+        document.body.addEventListener('touchstart', addFlower); // Para dispositivos móveis
+
     </script>
 </body>
 </html>
