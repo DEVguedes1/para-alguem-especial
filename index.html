@@ -3,77 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para você</title>
+    <title>Flores</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Ajustes para a interação */
-        body {
-            cursor: pointer;
-            background-color: #000;
-        }
-
-        /* Esconde as flores inicialmente */
-        .flowers {
-            display: none;
-            transition: opacity 2s ease;
-        }
-
-        /* Estilo da frase de elogio */
-        .frase-overlay {
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            z-index: 100;
-            opacity: 0;
-            transition: opacity 3s ease;
-            pointer-events: none;
-            width: 80%;
-        }
-
-        .instrucao {
+        /* Estilo para a frase aparecer com brilho */
+        .message {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #39c6d6;
-            font-family: sans-serif;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: glow 2s infinite;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 2s ease;
+            text-shadow: 0 0 10px #39c6d6, 0 0 20px #39c6d6;
+            pointer-events: none;
         }
 
-        @keyframes glow {
+        /* Classe para mostrar a mensagem após o clique */
+        .show-message {
+            opacity: 1;
+        }
+
+        /* Instrução inicial */
+        .hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #39c6d6;
+            font-family: sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
-
-        /* Classe para ativar as animações */
-        .active .flowers { display: block; }
-        .active .frase-overlay { opacity: 1; }
-        .active .instrucao { display: none; }
-        
-        /* Forçar o play nas animações do CSS que você enviou */
-        .active * {
-            animation-play-state: running !important;
-        }
     </style>
 </head>
-<body class="container"> <div class="instrucao" id="hint">Toque para florescer</div>
-
-    <div class="frase-overlay" id="frase">
-        <h2 style="font-size: 1.5rem; text-shadow: 0 0 10px rgba(57,198,214,0.8);">
-            Flores para a pessoa que tem o sorriso mais lindo que já vi.
-        </h2>
-    </div>
+<body class="container"> <div class="hint" id="hint">Clique para florescer</div>
+    <div class="message" id="message">Flores para a pessoa que tem o sorriso mais lindo que já vi.</div>
 
     <div class="night"></div>
-    
     <div class="flowers">
         <div class="flower flower--1">
             <div class="flower__leafs flower__leafs--1">
@@ -82,17 +59,79 @@
                 <div class="flower__leaf flower__leaf--3"></div>
                 <div class="flower__leaf flower__leaf--4"></div>
                 <div class="flower__white-circle"></div>
+                <div class="flower__light flower__light--1"></div>
+                <div class="flower__light flower__light--2"></div>
+                <div class="flower__light flower__light--3"></div>
+                <div class="flower__light flower__light--4"></div>
+                <div class="flower__light flower__light--5"></div>
+                <div class="flower__light flower__light--6"></div>
+                <div class="flower__light flower__light--7"></div>
+                <div class="flower__light flower__light--8"></div>
             </div>
-            <div class="flower__line"></div>
-        </div>
+            <div class="flower__line">
+                <div class="flower__line__leaf flower__line__leaf--1"></div>
+                <div class="flower__line__leaf flower__line__leaf--2"></div>
+                <div class="flower__line__leaf flower__line__leaf--3"></div>
+                <div class="flower__line__leaf flower__line__leaf--4"></div>
+                <div class="flower__line__leaf flower__line__leaf--5"></div>
+                <div class="flower__line__leaf flower__line__leaf--6"></div>
+            </div>
         </div>
 
+        <div class="flower flower--2">
+            <div class="flower__leafs flower__leafs--2">
+                <div class="flower__leaf flower__leaf--1"></div>
+                <div class="flower__leaf flower__leaf--2"></div>
+                <div class="flower__leaf flower__leaf--3"></div>
+                <div class="flower__leaf flower__leaf--4"></div>
+                <div class="flower__white-circle"></div>
+                <div class="flower__light flower__light--1"></div>
+                <div class="flower__light flower__light--2"></div>
+                <div class="flower__light flower__light--3"></div>
+                <div class="flower__light flower__light--4"></div>
+            </div>
+            <div class="flower__line">
+                <div class="flower__line__leaf flower__line__leaf--1"></div>
+                <div class="flower__line__leaf flower__line__leaf--2"></div>
+                <div class="flower__line__leaf flower__line__leaf--3"></div>
+                <div class="flower__line__leaf flower__line__leaf--4"></div>
+            </div>
+        </div>
+
+        <div class="flower flower--3">
+            <div class="flower__leafs flower__leafs--3">
+                <div class="flower__leaf flower__leaf--1"></div>
+                <div class="flower__leaf flower__leaf--2"></div>
+                <div class="flower__leaf flower__leaf--3"></div>
+                <div class="flower__leaf flower__leaf--4"></div>
+                <div class="flower__white-circle"></div>
+                <div class="flower__light flower__light--1"></div>
+                <div class="flower__light flower__light--2"></div>
+                <div class="flower__light flower__light--3"></div>
+                <div class="flower__light flower__light--4"></div>
+            </div>
+            <div class="flower__line">
+                <div class="flower__line__leaf flower__line__leaf--1"></div>
+                <div class="flower__line__leaf flower__line__leaf--2"></div>
+                <div class="flower__line__leaf flower__line__leaf--3"></div>
+                <div class="flower__line__leaf flower__line__leaf--4"></div>
+            </div>
+        </div>
+
+        <div class="growing-grass">
+            <div class="flower__grass flower__grass--1">
+                <div class="flower__grass--top"></div>
+                <div class="flower__grass--bottom"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Quando ela clicar na tela
-        document.body.addEventListener('click', function() {
-            // Remove a classe que pausa e adiciona a que mostra
-            document.body.classList.remove('container');
-            document.body.classList.add('active');
+        // Lógica para iniciar a animação ao clicar
+        document.body.addEventListener('click', () => {
+            document.body.classList.remove('container'); // Remove a pausa das animações
+            document.getElementById('message').classList.add('show-message'); // Mostra a frase
+            document.getElementById('hint').style.display = 'none'; // Esconde a instrução
         });
     </script>
 </body>
